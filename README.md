@@ -1,0 +1,4 @@
+[index.html](https://github.com/user-attachments/files/27067193/index.html)
+[index.html](https://github.com/user-attachments/files/27067195/index.html)[README_INSTALLABILE.txt](https://github.com/user-attachments/files/27067199/README_INSTALLABILE.txt)[sw.js](https://github.com/user-attachments/files/27067200/sw.js)<img width="512" height="512" alt="icon-512" src="https://github.com/user-attachments/assets/71d8a87a-d618-4b68-a3ef-a271fd00bee2" /><img width="180" height="180" alt="apple-touch-icon" src="https://github.com/user-attachments/assets/ce31b791-0888-41c9-90c6-72b79ea138b1" />
+<img width="32" height="32" alt="favicon-32" src="https://github.com/user-attachments/assets/5e37f40e-46e4-4418-a7d7-4d3f14c8c78e" />
+<img width="192" height="192" alt="icon-192" src="https://github.com/user-attachments/assets/60504a9a-769e-46d6-af2c-43b8da457612" />
