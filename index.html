@@ -449,16 +449,7 @@ table {
 <meta name="apple-mobile-web-app-title" content="Richiesta Attrezzature">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('./sw.js').catch(function(err) {
-      console.log('Service Worker non registrato:', err);
-    });
-  });
-}
-</script>
-
+<!-- Service Worker disattivato: evita cache vecchia -->
 </head>
 <body>
 <div class="app">
