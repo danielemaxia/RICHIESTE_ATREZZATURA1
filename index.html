@@ -1,6 +1,15 @@
+
 <!DOCTYPE html>
-<html lang="it"><head>
+<html lang="it">
+<head>
 <meta charset="UTF-8">
+
+<script>
+localStorage.clear();
+sessionStorage.clear();
+console.log('Memoria locale cancellata');
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Richiesta Attrezzature</title>
 <!-- FIX ARTICOLI: usa sempre gli articoli inclusi in index.html -->
@@ -465,11 +474,9 @@ if ('serviceWorker' in navigator) {
         await Promise.all(keys.map(key => caches.delete(key)));
       }
 
-      await navigator.serviceWorker.register('./sw.js?v=20260427-1800');
-
-      console.log('SW pulito registrato');
+      console.log('Service worker rimosso e cache cancellata');
     } catch (err) {
-      console.log('Errore Service Worker:', err);
+      console.log('Errore pulizia:', err);
     }
   });
 }
@@ -19404,8 +19411,8 @@ function generateCompiledHTML() {
 
     let exported = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
-    const inject = '<script>\nEMBEDDED_STATE = ' + state + ';\n<\/script>\n';
-    exported = exported.replace('<script>', inject + '<script>');
+ // NON incorporare localStorage nell'HTML esportato
+exported = exported.replace(/<script>\s*EMBEDDED_STATE[\s\S]*?<\/script>/, '');
 
     const blob = new Blob([exported], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
