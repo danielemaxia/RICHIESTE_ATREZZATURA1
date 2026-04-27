@@ -452,7 +452,7 @@ table {
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
+  window.addEventListener('load', async function () {
     try {
       const registrations = await navigator.serviceWorker.getRegistrations();
 
@@ -461,15 +461,15 @@ if ('serviceWorker' in navigator) {
       }
 
       if ('caches' in window) {
-        const cacheNames = await caches.keys();
-        await Promise.all(cacheNames.map(cacheName => caches.delete(cacheName)));
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
       }
 
-      await navigator.serviceWorker.register('./service-worker.js?v=20260427-1700');
+      await navigator.serviceWorker.register('./sw.js?v=20260427-1800');
 
-      console.log('Service worker reinstallato e cache cancellata');
-    } catch (error) {
-      console.error('Errore aggiornamento service worker:', error);
+      console.log('SW pulito registrato');
+    } catch (err) {
+      console.log('Errore Service Worker:', err);
     }
   });
 }
