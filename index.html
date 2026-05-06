@@ -465,30 +465,24 @@ table {
 <script>
 let deferredInstallPrompt = null;
 
+<script>
+let deferredInstallPrompt = null;
+
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async function () {
-    try {
-      await navigator.serviceWorker.register('./sw.js?v=5001');
-      console.log('Service worker registrato');
-    } catch (err) {
-      console.log('Service worker non registrato:', err);
-    }
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js?v=7000')
+      .then(function () {
+        console.log('Service Worker registrato');
+      })
+      .catch(function (err) {
+        console.log('Service Worker non registrato:', err);
+      });
   });
 }
 
 window.addEventListener('beforeinstallprompt', function (e) {
   e.preventDefault();
   deferredInstallPrompt = e;
-
-  const btn = document.getElementById('installAppBtn');
-  if (btn) btn.style.display = 'inline-block';
-});
-
-window.addEventListener('appinstalled', function () {
-  deferredInstallPrompt = null;
-
-  const btn = document.getElementById('installAppBtn');
-  if (btn) btn.style.display = 'none';
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -496,14 +490,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (btn) {
     btn.addEventListener('click', async function () {
-      if (!deferredInstallPrompt) {
-        alert('Installazione non ancora disponibile. Apri il sito da Chrome/Edge, attendi qualche secondo e ricarica la pagina.');
-        return;
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+      } else {
+        alert('Apri il menu di Chrome/Edge ⋮ e scegli "Installa app" oppure "Aggiungi a schermata Home".');
       }
-
-      deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
-      deferredInstallPrompt = null;
     });
   }
 });
