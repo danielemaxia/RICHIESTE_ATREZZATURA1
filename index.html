@@ -462,26 +462,51 @@ table {
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png"><script>
+<script>
+let deferredInstallPrompt = null;
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function () {
     try {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-
-      for (const registration of registrations) {
-        await registration.unregister();
-      }
-
-      if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
-      }
-
-      console.log('Service worker rimosso e cache cancellata');
+      await navigator.serviceWorker.register('./sw.js?v=5001');
+      console.log('Service worker registrato');
     } catch (err) {
-      console.log('Errore pulizia:', err);
+      console.log('Service worker non registrato:', err);
     }
   });
 }
+
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+
+  const btn = document.getElementById('installAppBtn');
+  if (btn) btn.style.display = 'inline-block';
+});
+
+window.addEventListener('appinstalled', function () {
+  deferredInstallPrompt = null;
+
+  const btn = document.getElementById('installAppBtn');
+  if (btn) btn.style.display = 'none';
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('installAppBtn');
+
+  if (btn) {
+    btn.addEventListener('click', async function () {
+      if (!deferredInstallPrompt) {
+        alert('Installazione non ancora disponibile. Apri il sito da Chrome/Edge, attendi qualche secondo e ricarica la pagina.');
+        return;
+      }
+
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+    });
+  }
+});
 </script>
 
 </head>
